@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View, StatusBar, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Bell, Search } from 'lucide-react-native'; // Tambah ikon search biar keren
+import { Bell, Search } from 'lucide-react-native';
 import { colors, fontType } from './assets/theme';
 import VideoList from './src/components/VideoList';
 import { useFonts } from 'expo-font';
@@ -9,6 +10,8 @@ const CATEGORIES = ["Trending", "Music", "Gaming", "Education", "Sports", "Live"
 
 export default function App() {
   const [loaded] = useFonts(fontType);
+
+  const [activeCategory, setActiveCategory] = useState("Trending"); // penerapan state
 
   if (!loaded) return null;
 
@@ -20,29 +23,34 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.title}>TIKTAK</Text>
         <View style={styles.headerIcons}>
-           <TouchableOpacity style={{ marginRight: 15 }}>
-              <Search color={colors.black()} size={24} />
-           </TouchableOpacity>
-           <TouchableOpacity>
-              <Bell color={colors.black()} size={24} />
-           </TouchableOpacity>
+          <TouchableOpacity style={{ marginRight: 15 }}>
+            <Search color={colors.black()} size={24} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Bell color={colors.black()} size={24} />
+          </TouchableOpacity>
         </View>
       </View>
 
       {/* CATEGORY BAR */}
       <View style={styles.listCategory}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
-          {CATEGORIES.map((cat, index) => (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 16 }}
+        >
+          {CATEGORIES.map((cat) => (
             <TouchableOpacity 
-              key={index} 
+              key={cat}
+              onPress={() => setActiveCategory(cat)} // state untuk interaksi aktivasi kategori
               style={[
-                category.item, 
-                index === 0 && { backgroundColor: colors.light() }
+                category.item,
+                activeCategory === cat && { backgroundColor: colors.light() } // stste untuk ubah tampilan kategori
               ]}
             >
               <Text style={[
-                category.title, 
-                index === 0 && { color: colors.primary() }
+                category.title,
+                activeCategory === cat && { color: colors.primary() }
               ]}>
                 {cat}
               </Text>
@@ -51,7 +59,8 @@ export default function App() {
         </ScrollView>
       </View>
 
-      <VideoList />
+      {/* penerapan props activeCategory untuk VideoList */}
+      <VideoList activeCategory={activeCategory} /> 
     </SafeAreaView>
   );
 }
@@ -70,7 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontFamily: 'Pjs-ExtraBold',
-    color: colors.primary(), // Logo warna Orange
+    color: colors.primary(),
     letterSpacing: -0.5,
   },
   listCategory: { paddingVertical: 12 },
