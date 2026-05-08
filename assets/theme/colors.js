@@ -1,7 +1,7 @@
 const colors = {
     // Primary & Background
     primary: (opacity = 1) => `rgb(255, 0, 0)`,
-    white: (opacity = 1) => `rgb(255, 255, 255)`,
+    white: (opacity = 1) => `rgba(255, 255, 255, 0)`,
     black: (opacity = 1) => `rgb(0, 0, 0)`,
     
     // Grayscale

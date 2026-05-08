@@ -1,17 +1,16 @@
+import { Image } from "expo-image";
+import { Settings } from "lucide-react-native";
 import {
-  View,
-  Text,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Settings } from "lucide-react-native";
-import { Image } from "expo-image";
 
 import { colors } from "../../assets/theme";
 import { ProfileData } from "../data/profiledata";
-import VideoList from "../components/VideoList";
 
 const formatNumber = (number) => {
   if (!number) return "0";
@@ -30,7 +29,6 @@ const formatNumber = (number) => {
 export default function Profile() {
   return (
     <SafeAreaView style={styles.container}>
-      
       {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Profile</Text>
@@ -40,19 +38,16 @@ export default function Profile() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        
         {/* PROFILE INFO */}
         <View style={styles.profileHeader}>
           <Image
-            source={{ uri: ProfileData.profilePict }}
+            source={{uri: ProfileData.profilePict}}
             style={profile.pic}
             contentFit="cover"
           />
 
           <Text style={profile.name}>{ProfileData.name}</Text>
-          <Text style={profile.info}>
-            Member since {ProfileData.createdAt}
-          </Text>
+          <Text style={profile.info}>Member since {ProfileData.createdAt}</Text>
 
           {/* STATS */}
           <View style={profile.statsContainer}>
@@ -81,7 +76,6 @@ export default function Profile() {
             <Text style={profile.buttonText}>Edit Profile</Text>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );

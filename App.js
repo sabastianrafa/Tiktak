@@ -1,14 +1,16 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { fontType } from "./assets/theme";
-import Home from "./src/screens/Home";
-import Profile from "./src/screens/Profile";
-import Shorts from "./src/screens/Shorts";
-import VideoDetail from "./src/screens/VideoDetail";
+import Router from "./src/navigation/Router";
 
 export default function App() {
   const [loaded] = useFonts(fontType);
-
-  if (!loaded) return null;
-
-  return <VideoDetail />;
+  if (!loaded) {
+    return null;
+  }
+  return (
+    <NavigationContainer>
+      <Router />
+    </NavigationContainer>
+  );
 }

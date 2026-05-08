@@ -1,127 +1,86 @@
 import React from "react";
+import { ThumbsDown, ThumbsUp } from "lucide-react-native";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
   Dimensions,
+  Image,
   ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  ArrowLeft,
-  ThumbsUp,
-  ThumbsDown,
-  Share2,
-  Download,
-  PlusSquare,
-} from "lucide-react-native";
 
 const { width } = Dimensions.get("window");
 
-export default function VideoDetail({ route, navigation }) {
-  const video = route?.params?.video;
-
-  // Fallback data yang lebih relevan dengan format YouTube
-  const data = video || {
-    title: "Cara Membuat Clone UI YouTube dengan React Native",
-    views: "125K views",
-    date: "2 days ago",
-    creator: "React Native Indo",
-    subscribers: "1.2M",
-    avatar: "https://via.placeholder.com/100", // Placeholder untuk foto profil
-    thumbnail: "https://via.placeholder.com/640x360", // Placeholder rasio 16:9
-    likes: "12K",
-    description:
-      "Di video kali ini kita akan membahas cara mendesain UI aplikasi seperti YouTube menggunakan React Native. Jangan lupa like, comment, dan subscribe!",
-  };
+export default function VideoDetail({ route }) {
+  const video = route?.params?.video || {};
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      {/* VIDEO PLAYER PLACEHOLDER (16:9) */}
+      {/* Thumbnail */}
       <View style={styles.videoContainer}>
-        <Image source={{ uri: data.thumbnail }} style={styles.videoPlayer} />
-        {/* Tombol Back Overlay */}
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <ArrowLeft size={24} color="#fff" />
-        </TouchableOpacity>
+        <Image
+          source={{ uri: video?.uri }}
+          style={styles.videoPlayer}
+        />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* TITLE & VIEWS */}
+        {/* Title Section */}
         <View style={styles.titleSection}>
-          <Text style={styles.title} numberOfLines={2}>
-            {data.title}
-          </Text>
+          <Text style={styles.title}>{video?.title}</Text>
           <Text style={styles.statsText}>
-            {data.views} • {data.date}
+            {video?.views} views • {video?.uploadedAt}
           </Text>
         </View>
 
-        {/* CHANNEL INFO & SUBSCRIBE */}
+        {/* Channel Section */}
         <View style={styles.channelSection}>
           <View style={styles.channelLeft}>
-            <Image source={{ uri: data.avatar }} style={styles.avatar} />
+            <View style={styles.avatar} />
             <View>
-              <Text style={styles.creatorName}>{data.creator}</Text>
-              <Text style={styles.subscribers}>{data.subscribers}</Text>
+              <Text style={styles.creatorName}>{video?.channel}</Text>
+              <Text style={styles.subscribers}>{video?.category}</Text>
             </View>
           </View>
+
           <TouchableOpacity style={styles.subscribeBtn}>
             <Text style={styles.subscribeText}>Subscribe</Text>
           </TouchableOpacity>
         </View>
 
-        {/* HORIZONTAL ACTION BUTTONS */}
+        {/* Action Buttons Section */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.actionsScroll}
         >
-          {/* Like & Dislike Group */}
           <View style={[styles.actionPill, styles.likeDislikeGroup]}>
             <TouchableOpacity style={styles.likeBtn}>
               <ThumbsUp size={20} color="#000" />
-              <Text style={styles.actionText}>{data.likes}</Text>
+              <Text style={styles.actionText}>Like</Text>
             </TouchableOpacity>
+
             <View style={styles.separator} />
+
             <TouchableOpacity style={styles.dislikeBtn}>
               <ThumbsDown size={20} color="#000" />
             </TouchableOpacity>
           </View>
-
-          {/* Share */}
-          <TouchableOpacity style={styles.actionPill}>
-            <Share2 size={20} color="#000" />
-            <Text style={styles.actionText}>Share</Text>
-          </TouchableOpacity>
-
-          {/* Save/Add */}
-          <TouchableOpacity style={styles.actionPill}>
-            <PlusSquare size={20} color="#000" />
-            <Text style={styles.actionText}>Save</Text>
-          </TouchableOpacity>
-
-          {/* Download */}
-          <TouchableOpacity style={styles.actionPill}>
-            <Download size={20} color="#000" />
-            <Text style={styles.actionText}>Download</Text>
-          </TouchableOpacity>
+          {/* Anda bisa menambahkan Action Pill lainnya di sini nanti (Share, Save, dll) */}
         </ScrollView>
 
-        {/* DESCRIPTION / COMMENTS PREVIEW SECTION */}
+        {/* Description Box (Komponen yang sebelumnya tidak terender) */}
         <View style={styles.descriptionBox}>
-          <Text style={styles.descriptionStats}>Comments • 1.4K</Text>
-          <Text style={styles.descriptionText} numberOfLines={3}>
-            {data.description}
+          <Text style={styles.descriptionStats}>
+            {video?.views} views • {video?.uploadedAt}
+          </Text>
+          <Text style={styles.descriptionText}>
+            {video?.description || "Tidak ada deskripsi tersedia untuk video ini."}
           </Text>
         </View>
 
-        {/* Spacer for bottom */}
         <View style={{ height: 40 }} />
       </ScrollView>
     </SafeAreaView>
@@ -202,7 +161,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   subscribeBtn: {
-    backgroundColor: "#0F0F0F", // Hitam khas YouTube modern
+    backgroundColor: "#0F0F0F",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
@@ -217,7 +176,8 @@ const styles = StyleSheet.create({
   actionsScroll: {
     paddingHorizontal: 16,
     paddingBottom: 16,
-    gap: 8, // Mengatur jarak antar pill
+    gap: 8,
+    flexDirection: "row", // Menjamin tombol tersusun horizontal
   },
   actionPill: {
     flexDirection: "row",
@@ -229,7 +189,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   likeDislikeGroup: {
-    paddingHorizontal: 0, // Reset padding karena dipisah untuk tombol dalam
+    paddingHorizontal: 0,
   },
   likeBtn: {
     flexDirection: "row",

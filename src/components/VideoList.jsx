@@ -1,13 +1,15 @@
 import {
+  Image,
   ScrollView,
-  View,
   StyleSheet,
   Text,
-  Image,
   TouchableOpacity,
+  View,
 } from "react-native";
-import {colors} from "../../assets/theme";
-import { VIDEO_DATA, SHORTS_DATA } from "../data/videos";
+import { colors } from "../../assets/theme";
+import { SHORTS_DATA, VIDEO_DATA } from "../data/videos";
+
+import { useNavigation } from "@react-navigation/native";
 
 export default function VideoList({activeCategory}) {
   const filteredVideos = VIDEO_DATA.filter(
@@ -19,12 +21,13 @@ export default function VideoList({activeCategory}) {
     (item) => activeCategory === "Trending" || item.category === activeCategory,
   );
 
+  const navigation = useNavigation();
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {/* short */}
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Shorts</Text>
-
       </View>
 
       <ScrollView
@@ -32,7 +35,10 @@ export default function VideoList({activeCategory}) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={shorts.scrollContainer}>
         {filteredShorts.map((item) => (
-          <TouchableOpacity key={item.id} style={shorts.card}>
+          <TouchableOpacity
+            key={item.id}
+            style={shorts.card}
+            onPress={() => navigation.navigate("Shorts")}>
             <Image source={{uri: item.uri}} style={shorts.image} />
             <View style={shorts.textOverlay}>
               <Text style={shorts.title} numberOfLines={2}>
@@ -62,23 +68,39 @@ const formatViews = (num) => {
   return num;
 };
 
-const VideoCard = ({video}) => (
-  <TouchableOpacity activeOpacity={0.9} style={videos.card}>
-    <Image source={{uri: video.uri}} style={videos.thumbnail} />
-    <View style={videos.infoRow}>
-      <View style={[videos.avatar, {backgroundColor: colors.lightGrey()}]} />
-      <View style={videos.textContainer}>
-        <Text style={videos.title} numberOfLines={2}>
-          {video.title}
-        </Text>
-        <Text style={videos.meta}>
-          {video.channel} • {formatViews(video.views)} ditonton • {video.uploadedAt}
-        </Text>
+const VideoCard = ({video}) => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={videos.card}
+      onPress={() =>
+        navigation.navigate("VideoDetail", {
+          video: video,
+        })
+      }>
+      <Image source={{uri: video.uri}} style={videos.thumbnail} />
+
+      <View style={videos.infoRow}>
+        <View style={[videos.avatar, {backgroundColor: colors.lightGrey()}]} />
+
+        <View style={videos.textContainer}>
+          <Text style={videos.title} numberOfLines={2}>
+            {video.title}
+          </Text>
+
+          <Text style={videos.meta}>
+            {video.channel} • {formatViews(video.views)} ditonton •{" "}
+            {video.uploadedAt}
+          </Text>
+        </View>
+
+        <Text style={videos.menu}>⋮</Text>
       </View>
-      <Text style={videos.menu}>⋮</Text>
-    </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   sectionHeader: {paddingHorizontal: 20, paddingVertical: 15},
