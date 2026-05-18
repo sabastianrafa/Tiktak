@@ -1,6 +1,9 @@
-import { Search } from "lucide-react-native";
-import { useState } from "react";
+import {Search} from "lucide-react-native";
+
+import {useState} from "react";
+
 import {
+  Animated,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -8,9 +11,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-import { colors } from "../../assets/theme";
+import {SafeAreaView} from "react-native-safe-area-context";
+
+import {colors} from "../../assets/theme";
+
 import VideoList from "../components/VideoList";
 
 const CATEGORIES = ["All", "Music", "Gaming", "Education", "Sports", "Live"];
@@ -22,98 +27,108 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.white()} />
 
-      {/* Header */}
-      <View style={styles.header}>
+      {/* HEADER */}
+      <Animated.View style={styles.header}>
         <Text style={styles.title}>TIKTAK</Text>
+
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconBtn} activeOpacity={0.7}>
             <Search color={colors.black()} size={24} />
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
 
-      {/* Kategori Bar */}
-      <View style={styles.listCategory}>
+      {/* CATEGORY */}
+      <Animated.View style={styles.listCategory}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoryScrollPadding}
-        >
+          contentContainerStyle={styles.categoryScrollPadding}>
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
+
             return (
-              <TouchableOpacity 
+              <TouchableOpacity
                 key={cat}
-                activeOpacity={0.8}
+                activeOpacity={0.85}
                 onPress={() => setActiveCategory(cat)}
-                style={[
-                  category.item,
-                  isActive && { backgroundColor: colors.light() }
-                ]}
-              >
-                <Text style={[
-                  category.title,
-                  isActive && { color: colors.primary() }
-                ]}>
+                style={[category.item, isActive && category.activeItem]}>
+                <Text
+                  style={[category.title, isActive && category.activeTitle]}>
                   {cat}
                 </Text>
               </TouchableOpacity>
             );
           })}
         </ScrollView>
-      </View>
+      </Animated.View>
 
-      {/* Daftar Konten Utama */}
+      {/* CONTENT */}
       <VideoList activeCategory={activeCategory} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    backgroundColor: colors.white() 
+  container: {
+    backgroundColor: colors.white(),
   },
+
   header: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    height: 50,
+    height: 56,
     backgroundColor: colors.white(),
   },
+
   headerIcons: {
     flexDirection: "row",
     alignItems: "center",
   },
+
   iconBtn: {
-    padding: 4,
+    padding: 6,
   },
+
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontFamily: "Pjs-ExtraBold",
     color: colors.primary(),
-    letterSpacing: -0.5,
+    letterSpacing: -1,
   },
-  listCategory: { 
+
+  listCategory: {
     paddingBottom: 10,
-    marginTop: 10
+    paddingTop: 4,
   },
-  categoryScrollPadding: { 
-    paddingHorizontal: 10
+
+  categoryScrollPadding: {
+    paddingHorizontal: 12,
   },
 });
 
 const category = StyleSheet.create({
   item: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 8,
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+    borderRadius: 999,
+    backgroundColor: "rgba(0,0,0,0.05)",
     marginRight: 10,
   },
+
+  activeItem: {
+    backgroundColor: "rgba(255,0,0,0.08)",
+  },
+
   title: {
     fontFamily: "Pjs-SemiBold",
     fontSize: 14,
     color: colors.grey(0.7),
+  },
+
+  activeTitle: {
+    color: colors.primary(),
   },
 });

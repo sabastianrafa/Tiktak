@@ -1,10 +1,13 @@
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import {createStackNavigator, TransitionPresets} from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from "@react-navigation/stack";
 
-import {Home as HomeIcon, Clapperboard, User} from "lucide-react-native";
+import { Clapperboard, Home as HomeIcon, User } from "lucide-react-native";
 
-import {colors} from "../../assets/theme";
+import { colors } from "../../assets/theme";
 
 // SCREENS
 import Home from "../screens/Home";
@@ -20,23 +23,18 @@ function MainApp() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-
         tabBarHideOnKeyboard: true,
-
         tabBarActiveTintColor: colors.primary(),
-
         tabBarInactiveTintColor: colors.grey(),
-
+        animation: "shift",
         tabBarStyle: {
           height: 80,
           paddingTop: 8,
-
           borderTopWidth: 0,
           elevation: 0,
-
           backgroundColor: colors.white(),
         },
-        
+
         tabBarLabelStyle: {
           marginTop: 3,
           fontSize: 10,
@@ -49,7 +47,6 @@ function MainApp() {
         component={Home}
         options={{
           tabBarLabel: "Home",
-
           tabBarIcon: ({color}) => <HomeIcon color={color} size={24} />,
         }}
       />
@@ -60,7 +57,6 @@ function MainApp() {
         component={Shorts}
         options={{
           tabBarLabel: "Shorts",
-
           tabBarStyle: {
             display: "none",
           },
@@ -75,7 +71,6 @@ function MainApp() {
         component={Profile}
         options={{
           tabBarLabel: "Profile",
-
           tabBarIcon: ({color}) => <User color={color} size={24} />,
         }}
       />
@@ -88,6 +83,23 @@ const Router = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        gestureEnabled: true,
+        gestureDirection: "horizontal",
+        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+        transitionSpec: {
+          open: {
+            animation: "timing",
+            config: {
+              duration: 500,
+            },
+          },
+          close: {
+            animation: "timing",
+            config: {
+              duration: 400,
+            },
+          },
+        },
       }}>
       {/* MAIN APP */}
       <Stack.Screen name="MainApp" component={MainApp} />
@@ -98,8 +110,6 @@ const Router = () => {
         component={VideoDetail}
         options={{
           gestureEnabled: false,
-
-          ...TransitionPresets.SlideFromRightIOS,
         }}
       />
     </Stack.Navigator>
