@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Dimensions,
   Image,
@@ -9,17 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
 import {useNavigation} from "@react-navigation/native";
-
 import {ThumbsDown, ThumbsUp} from "lucide-react-native";
-
 import {SafeAreaView} from "react-native-safe-area-context";
-
 import {colors} from "../../assets/theme";
-
 import {USER_DATA, VIDEO_DATA} from "../data/videos";
-
 import VideoCard from "../components/VideoCard";
 
 const {width} = Dimensions.get("window");

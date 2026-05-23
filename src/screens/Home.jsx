@@ -1,7 +1,5 @@
 import {Search} from "lucide-react-native";
-
 import {useState} from "react";
-
 import {
   Animated,
   ScrollView,
@@ -11,17 +9,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
 import {SafeAreaView} from "react-native-safe-area-context";
-
 import {colors} from "../../assets/theme";
-
 import VideoList from "../components/VideoList";
+import {useNavigation} from "@react-navigation/native";
 
 const CATEGORIES = ["All", "Music", "Gaming", "Education", "Sports", "Live"];
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,8 +29,16 @@ export default function Home() {
         <Text style={styles.title}>TIKTAK</Text>
 
         <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconBtn} activeOpacity={0.7}>
-            <Search color={colors.black()} size={24} />
+          <TouchableOpacity
+            style={styles.iconBtn}
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("Search")}>
+
+            <Search
+              color={colors.black()}
+              size={24}
+            />
+
           </TouchableOpacity>
         </View>
       </Animated.View>

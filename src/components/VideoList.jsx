@@ -74,8 +74,6 @@ export default function VideoList({
   const renderHeader = () => (
     <View>
       {ListHeaderComponent}
-
-      {/* TOP VIDEOS */}
       <View>
         {topVideos.map((video) => {
           const user = getUser(video.userId);
@@ -91,7 +89,6 @@ export default function VideoList({
         })}
       </View>
 
-      {/* SHORTS */}
       <View style={styles.shortSection}>
         <View style={styles.sectionHeader}>
           <Text
@@ -116,7 +113,7 @@ export default function VideoList({
           renderItem={({item}) => (
             <ShortsCard
               item={item}
-              onPress={() => navigation.navigate("Shorts", { video: item })}
+              onPress={() => navigation.navigate("Shorts", {video: item})}
             />
           )}
         />
@@ -149,7 +146,7 @@ const styles = StyleSheet.create({
   },
 
   shortSection: {
-    marginBottom: 12,
+    marginBottom: 18,
   },
 
   sectionHeader: {
@@ -165,7 +162,6 @@ const styles = StyleSheet.create({
   },
 
   shortsContainer: {
-    paddingHorizontal: 12,
-    gap: 12,
+    paddingHorizontal: 12
   },
 });

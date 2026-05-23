@@ -9,6 +9,6 @@ const colors = {
     darkGrey: (opacity = 1) => `rgb(121, 121, 121)`,
     lightGrey: (opacity = 1) => `rgba(240, 242, 245, 1)`,
     // Accents
-    light: (opacity = 1) => `rgba(255, 0, 0, 0.1)`,
+    light: (opacity = 1) => `rgba(0, 0, 0, 0.16)`,
 }
 export default colors;

@@ -1,19 +1,26 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
 import {
   CardStyleInterpolators,
   createStackNavigator,
+  TransitionPresets,
 } from "@react-navigation/stack";
 
-import { Clapperboard, Home as HomeIcon, User } from "lucide-react-native";
+import {Clapperboard, Home as HomeIcon, User} from "lucide-react-native";
 
-import { colors } from "../../assets/theme";
+import {colors} from "../../assets/theme";
 
 // SCREENS
+import AddContent from "../screens/AddContentScreen";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
+import SearchScreen from "../screens/SearchScreen";
+import SettingsScreen from "../screens/settings/SettingsScreen";
 import Shorts from "../screens/Shorts";
 import VideoDetail from "../screens/VideoDetail";
+import SplashScreen from "../screens/SplashScreen";
+import Login from "../screens/auth/login";
+import Register from "../screens/auth/register";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -57,9 +64,6 @@ function MainApp() {
         component={Shorts}
         options={{
           tabBarLabel: "Shorts",
-          tabBarStyle: {
-            display: "none",
-          },
 
           tabBarIcon: ({color}) => <Clapperboard color={color} size={24} />,
         }}
@@ -101,6 +105,7 @@ const Router = () => {
           },
         },
       }}>
+      <Stack.Screen name="Splash" component={SplashScreen} />
       {/* MAIN APP */}
       <Stack.Screen name="MainApp" component={MainApp} />
 
@@ -110,6 +115,70 @@ const Router = () => {
         component={VideoDetail}
         options={{
           gestureEnabled: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: "pop",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+
+      <Stack.Screen
+        name="AddContent"
+        component={AddContent}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: "pop",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: "pop",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: "pop",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          animationTypeForReplace: "pop",
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
+          ...TransitionPresets.SlideFromRightIOS,
         }}
       />
     </Stack.Navigator>

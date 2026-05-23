@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 250,
     borderRadius: 15,
+    marginRight: 10,
     overflow: "hidden",
     backgroundColor: colors.black(),
   },
